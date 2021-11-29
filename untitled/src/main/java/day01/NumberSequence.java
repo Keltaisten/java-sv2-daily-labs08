@@ -9,17 +9,20 @@ public class NumberSequence {
     private List<Integer> numbers;
 
     public NumberSequence(List<Integer> numbers) {
-        this.numbers = Arrays.asList(1,2,3,4,5);
-//        this.numbers = Arrays.asList(6,7,8,9,10);
+        this.numbers = numbers;
     }
 
     public NumberSequence(int i1, int i2, int i3) {
+        this.numbers = makeRandomNumbersForConstructor(i1,i2,i3);
+    }
+
+    private List<Integer> makeRandomNumbersForConstructor(int i1, int i2, int i3){
         List<Integer> randomNumberList = new ArrayList<>();
         Random rand = new Random();
         for(int i = 0; i < i1;i++){
             randomNumberList.add(rand.nextInt(i2,i3));
         }
-        this.numbers = randomNumberList;
+        return randomNumberList;
     }
 
     public List<Integer> closeToAverage(int value){
@@ -32,7 +35,7 @@ public class NumberSequence {
         }
         return filteredListNumbers;
     }
-
+    
     private int average() {
         int sum = 0;
         for(Integer i: numbers){
