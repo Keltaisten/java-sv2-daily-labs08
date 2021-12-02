@@ -11,7 +11,7 @@ class FileReaderTest {
     @Test
     void find() {
         FileReader fileReader = new FileReader();
-        int i = fileReader.find(Paths.get("src/main/resources/weather.dat"));
+        int i = fileReader.findSmallestTemperatureSpread(Paths.get("src/main/resources/weather.dat"));
         System.out.println(i);
     }
 }

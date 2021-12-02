@@ -9,7 +9,7 @@ import java.util.List;
 public class FileReader {
     List<Days> dayList = new ArrayList<>();
 
-    public int find(Path path){
+    public int findSmallestTemperatureSpread(Path path){
         List<String> strings = new ArrayList<>();
         try {
             strings = Files.readAllLines(path);

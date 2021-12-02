@@ -12,35 +12,36 @@ public class NumberSequence {
         this.numbers = numbers;
     }
 
-    public NumberSequence(int i1, int i2, int i3) {
-        this.numbers = makeRandomNumbersForConstructor(i1,i2,i3);
+    public NumberSequence(int count, int minValue, int maxValue) {
+        this.numbers = makeRandomNumbersForConstructor(count,minValue,maxValue);
     }
 
-    private List<Integer> makeRandomNumbersForConstructor(int i1, int i2, int i3){
+    private List<Integer> makeRandomNumbersForConstructor(int count, int minValue, int maxValue){
         List<Integer> randomNumberList = new ArrayList<>();
         Random rand = new Random();
-        for(int i = 0; i < i1;i++){
-            randomNumberList.add(rand.nextInt(i2,i3));
+        for(int i = 0; i < count;i++){
+            randomNumberList.add(rand.nextInt(minValue,maxValue + 1));
         }
         return randomNumberList;
     }
 
     public List<Integer> closeToAverage(int value){
         List<Integer> filteredListNumbers = new ArrayList<>();
-        int averageNumber = average();
-        for(Integer i: numbers){
-            if(i - value < averageNumber){
+        double averageNumber = average();
+        for(int i: numbers){
+            if(Math.abs(i - value) <= averageNumber + 0.000001d){
                 filteredListNumbers.add(i);
             }
         }
         return filteredListNumbers;
     }
-    
-    private int average() {
-        int sum = 0;
+
+    private double average() {
+        double sum = 0;
         for(Integer i: numbers){
             sum += i;
         }
-        return sum;
+        return sum/numbers.size();
     }
+    
 }
