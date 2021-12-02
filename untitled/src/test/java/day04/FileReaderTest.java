@@ -14,4 +14,5 @@ class FileReaderTest {
         int i = fileReader.findSmallestTemperatureSpread(Paths.get("src/main/resources/weather.dat"));
         System.out.println(i);
     }
+
 }

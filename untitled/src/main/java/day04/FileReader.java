@@ -7,23 +7,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileReader {
-    List<Days> dayList = new ArrayList<>();
+    private List<Days> dayList = new ArrayList<>();
+    private List<Football> teamlList = new ArrayList<>();
 
     public int findSmallestTemperatureSpread(Path path){
-        List<String> strings = new ArrayList<>();
+        List<String> weatherList = new ArrayList<>();
         try {
-            strings = Files.readAllLines(path);
+            weatherList = Files.readAllLines(path);
         }catch (IOException ioe){
             throw new IllegalStateException("File not fount");
         }
 
-        loopOnTheList(strings);
-        int i = checkTheMinimumSpread();
-        return i;
+        loopOnTheList(weatherList);
+
+        int minimumSpread = checkTheMinimumSpread();
+        return minimumSpread;
     }
 
     private int checkTheMinimumSpread() {
-        int minDay = 1_000;
+        int minDay = 0;
         int temp = 1_000;
         for(Days d: dayList){
             if(d.getMaxTemp() - d.getMinTemp() < temp){
@@ -35,17 +37,49 @@ public class FileReader {
         return minDay;
     }
 
-    private void loopOnTheList(List<String> strings) {
-        for(int i = 2; i < strings.size() - 2; i++){
-            int day = Integer.parseInt(strings.get(i).substring(2,4).trim());
-            int maxTemp = Integer.parseInt(strings.get(i).substring(6,8));
-            int minTemp = Integer.parseInt(strings.get(i).substring(12,14));
+    private void loopOnTheList(List<String> weatherList) {
+        for(int i = 2; i < weatherList.size() - 1; i++){
+            int day = Integer.parseInt(weatherList.get(i).substring(2,4).trim());
+            int maxTemp = Integer.parseInt(weatherList.get(i).substring(6,8));
+            int minTemp = Integer.parseInt(weatherList.get(i).substring(12,14));
             Days days = new Days(day,maxTemp,minTemp);
-            addToTheList(days);
+            dayList.add(days);
         }
     }
 
-    private void addToTheList(Days days) {
-        dayList.add(days);
+    public String findSmallestDifference(Path path){
+        List<String> footballList = new ArrayList<>();
+        try {
+            footballList = Files.readAllLines(path);
+        }catch (IOException ioe){
+            throw new IllegalStateException("File not fount");
+        }
+
+        loopOnTheList(footballList);
+
+        String smallestDiff = checkTheMinimumSpreadForFootball();
+        return smallestDiff;
+    }
+
+    private void loopOnTheFootballList(List<String> footballList) {
+        for(int i = 2; i < footballList.size() - 1; i++){
+            String teamName = footballList.get(i).substring(8,23).trim();
+            int maxTemp = Integer.parseInt(footballList.get(i).substring(6,8));
+            int minTemp = Integer.parseInt(footballList.get(i).substring(12,14));
+            Football football = new Football(teamName,maxTemp,minTemp);
+            teamlList.add(football);
+        }
+    }
+
+    private String checkTheMinimumSpreadForFootball() {
+        String teamName = "";
+        int temp = 1_000;
+        for(Football f: teamlList){
+            if(f.getMax() - f.getMin() < temp){
+                temp = f.getMax() - f.getMin();
+                teamName = f.getFootballTeamName();
+            }
+        }
+        return teamName;
     }
 }
