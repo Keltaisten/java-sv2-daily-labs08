@@ -9,26 +9,28 @@ import java.util.List;
 public class FileReader {
     private List<Days> dayList = new ArrayList<>();
     private List<Football> teamlList = new ArrayList<>();
+    private List<Data> dataList = new ArrayList<>();
 
-    public int findSmallestTemperatureSpread(Path path){
-        List<String> weatherList = new ArrayList<>();
+    private List<String> readTheFiles(Path path){
+        List<String> readList;
         try {
-            weatherList = Files.readAllLines(path);
+            readList = Files.readAllLines(path);
         }catch (IOException ioe){
             throw new IllegalStateException("File not fount");
         }
+        return readList;
+    }
 
-        loopOnTheList(weatherList);
-
-        int minimumSpread = checkTheMinimumSpread();
-        return minimumSpread;
+    public int findSmallestTemperatureSpread(Path path){
+        loopOnTheList(readTheFiles(path));
+        return checkTheMinimumSpread();
     }
 
     private int checkTheMinimumSpread() {
         int minDay = 0;
         int temp = 1_000;
         for(Days d: dayList){
-            if(d.getMaxTemp() - d.getMinTemp() < temp){
+            if(checkTheMinimumDiff(d.getMaxTemp(),d.getMinTemp(),temp)){
                 temp = d.getMaxTemp() - d.getMinTemp();
                 minDay = d.getDay();
 
@@ -48,17 +50,8 @@ public class FileReader {
     }
 
     public String findSmallestDifference(Path path){
-        List<String> footballList = new ArrayList<>();
-        try {
-            footballList = Files.readAllLines(path);
-        }catch (IOException ioe){
-            throw new IllegalStateException("File not fount");
-        }
-
-        loopOnTheFootballList(footballList);
-
-        String smallestDiff = checkTheMinimumSpreadForFootball();
-        return smallestDiff;
+        loopOnTheFootballList(readTheFiles(path));
+        return checkTheMinimumSpreadForFootball();
     }
 
     private void loopOnTheFootballList(List<String> footballList) {
@@ -73,11 +66,15 @@ public class FileReader {
         }
     }
 
+    private boolean checkTheMinimumDiff(int max, int min, int diff){
+        return (Math.abs(max - min) < diff);
+    }
+
     private String checkTheMinimumSpreadForFootball() {
         String teamName = "";
         int diff = 1_000;
         for(Football f: teamlList){
-            if(Math.abs(f.getMax() - f.getMin()) < diff){
+            if(checkTheMinimumDiff(f.getMax(),f.getMin(),diff)){
                 diff = Math.abs(f.getMax() - f.getMin());
                 teamName = f.getFootballTeamName();
             }

@@ -4,6 +4,7 @@ public class Football {
     private String footballTeamName;
     private int max;
     private int min;
+    private int number;
 
     public Football(String footballTeamName, int max, int min) {
         this.footballTeamName = footballTeamName;
