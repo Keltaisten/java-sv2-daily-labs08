@@ -11,8 +11,15 @@ class FileReaderTest {
     @Test
     void find() {
         FileReader fileReader = new FileReader();
-        int i = fileReader.findSmallestTemperatureSpread(Paths.get("src/main/resources/weather.dat"));
-        System.out.println(i);
+        int minSpread = fileReader.findSmallestTemperatureSpread(Paths.get("src/main/resources/weather.dat"));
+        System.out.println(minSpread);
+    }
+
+    @Test
+    void findTeam() {
+        FileReader fileReader = new FileReader();
+        String team = fileReader.findSmallestDifference(Paths.get("src/main/resources/football.dat"));
+        System.out.println(team);
     }
 
 }

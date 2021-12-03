@@ -55,28 +55,30 @@ public class FileReader {
             throw new IllegalStateException("File not fount");
         }
 
-        loopOnTheList(footballList);
+        loopOnTheFootballList(footballList);
 
         String smallestDiff = checkTheMinimumSpreadForFootball();
         return smallestDiff;
     }
 
     private void loopOnTheFootballList(List<String> footballList) {
-        for(int i = 2; i < footballList.size() - 1; i++){
-            String teamName = footballList.get(i).substring(8,23).trim();
-            int maxTemp = Integer.parseInt(footballList.get(i).substring(6,8));
-            int minTemp = Integer.parseInt(footballList.get(i).substring(12,14));
+        for(int i = 1; i < footballList.size(); i++){
+            if(!footballList.get(i).substring(8,9).equals("-")){
+            String teamName = footballList.get(i).substring(7,23).trim();
+            int maxTemp = Integer.parseInt(footballList.get(i).substring(43,45));
+            int minTemp = Integer.parseInt(footballList.get(i).substring(50,52));
             Football football = new Football(teamName,maxTemp,minTemp);
             teamlList.add(football);
+            }
         }
     }
 
     private String checkTheMinimumSpreadForFootball() {
         String teamName = "";
-        int temp = 1_000;
+        int diff = 1_000;
         for(Football f: teamlList){
-            if(f.getMax() - f.getMin() < temp){
-                temp = f.getMax() - f.getMin();
+            if(Math.abs(f.getMax() - f.getMin()) < diff){
+                diff = Math.abs(f.getMax() - f.getMin());
                 teamName = f.getFootballTeamName();
             }
         }
